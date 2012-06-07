@@ -70,8 +70,8 @@ describe OmniAuth::Strategies::Shibboleth do
       end
     end
 
-    context 'with dev_mode options' do
-      let(:options){ { :dev_mode => true} }
+    context 'with debug mode options' do
+      let(:options){ { :debug => true} }
       let(:strategy){ OmniAuth::Strategies::Shibboleth.new(app, options) }
 
       it 'should raise environment variables' do
