@@ -10,9 +10,9 @@ Gem::Specification.new do |gem|
 
   gem.authors       = ["Toyokazu Akiyama"]
   gem.email         = ["toyokazu@gmail.com"]
-  gem.description   = %q{OmniAuth Shibboleth strategies for OmniAuth 1.0}
-  gem.summary       = %q{OmniAuth Shibboleth strategies for OmniAuth 1.0}
-  gem.homepage      = ""
+  gem.description   = %q{OmniAuth Shibboleth strategies for OmniAuth 1.1}
+  gem.summary       = %q{OmniAuth Shibboleth strategies for OmniAuth 1.1}
+  gem.homepage      = "https://github.com/toyokazu/omniauth-shibboleth"
 
   gem.files         = `find . -not \\( -regex ".*\\.git.*" -o -regex "\\./pkg.*" -o -regex "\\./spec.*" \\)`.split("\n").map{ |f| f.gsub(/^.\//, '') }
   gem.test_files    = `find spec/*`.split("\n")
