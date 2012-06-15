@@ -9,6 +9,14 @@ def make_env(path = '/auth/shibboleth', props = {})
   }.merge(props)
 end
 
+def failure_path
+  if OmniAuth::VERSION >= "1.0" && OmniAuth::VERSION < "1.1"
+    "/auth/failure?message=no_shibboleth_session"
+  elsif OmniAuth::VERSION >= "1.1"
+    "/auth/failure?message=no_shibboleth_session&strategy=shibboleth"
+  end
+end
+
 describe OmniAuth::Strategies::Shibboleth do
   let(:app){ Rack::Builder.new do |b|
     b.use Rack::Session::Cookie
@@ -35,7 +43,7 @@ describe OmniAuth::Strategies::Shibboleth do
 
       it 'should fail to get Shib-Session-ID environment variable' do
         last_response.status.should == 302
-        last_response.location.should be_start_with '/auth/failure?message=no_shibboleth_session'
+        last_response.location.should == failure_path
       end
     end
 
@@ -70,7 +78,7 @@ describe OmniAuth::Strategies::Shibboleth do
       end
     end
 
-    context 'with debug mode options' do
+    context 'with debug options' do
       let(:options){ { :debug => true} }
       let(:strategy){ OmniAuth::Strategies::Shibboleth.new(app, options) }
 
