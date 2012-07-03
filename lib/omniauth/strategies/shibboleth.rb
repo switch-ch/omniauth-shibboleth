@@ -35,7 +35,7 @@ module OmniAuth
       end
       
       uid do
-        request.env[options.uid_field.to_s]
+        request.env[options.uid_field.to_s] 
       end
 
       info do
