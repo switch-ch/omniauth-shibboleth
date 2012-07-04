@@ -1,8 +1,10 @@
 module OmniauthShibboleth
   module Generators
     class InitializerGenerator < Rails::Generators::Base
+      namespace "shibboleth"
+
       source_root File.expand_path("../templates", __FILE__)
-      #destination_root Rails.root
+      
       argument :path_to_attribute_map_xml, :type => :string, :default => "/etc/shibboleth/attribute-map.xml"
     
       def copy_initializer_file
