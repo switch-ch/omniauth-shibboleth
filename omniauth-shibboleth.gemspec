@@ -6,17 +6,15 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'rack-test'
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rspec', '~> 2.8'
-  gem.add_development_dependency 'guard-rspec'
-  gem.add_development_dependency 'rails'
-  gem.add_development_dependency 'sqlite3'
+  gem.add_development_dependency 'rspec', '>= 2.8'
 
+  gem.license = 'MIT'
 
   gem.authors       = ["Toyokazu Akiyama"]
   gem.email         = ["toyokazu@gmail.com"]
-  gem.description   = %q{OmniAuth Shibboleth strategies for OmniAuth 1.0}
-  gem.summary       = %q{OmniAuth Shibboleth strategies for OmniAuth 1.0}
-  gem.homepage      = "https://github.com/toyokazu/omniauth-shibboleth"
+  gem.description   = %q{OmniAuth Shibboleth strategies for OmniAuth 1.x}
+  gem.summary       = %q{OmniAuth Shibboleth strategies for OmniAuth 1.x}
+  gem.homepage      = ""
 
   gem.files         = `find . -not \\( -regex ".*\\.git.*" -o -regex "\\./pkg.*" -o -regex "\\./spec.*" \\)`.split("\n").map{ |f| f.gsub(/^.\//, '') }
   gem.test_files    = `find spec/*`.split("\n")
