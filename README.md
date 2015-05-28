@@ -1,5 +1,8 @@
 # OmniAuth Shibboleth strategy
 
+[![Gem Version](http://img.shields.io/gem/v/omniauth-shibboleth.svg)](http://rubygems.org/gems/omniauth-shibboleth)
+[![Build Status](https://travis-ci.org/toyokazu/omniauth-shibboleth.svg?branch=master)](https://travis-ci.org/toyokazu/omniauth-shibboleth)
+
 OmniAuth Shibboleth strategy is an OmniAuth strategy for authenticating through Shibboleth (SAML). If you do not know OmniAuth, please visit OmniAuth wiki.
 
 https://github.com/intridea/omniauth/wiki
@@ -18,15 +21,12 @@ https://github.com/toyokazu/omniauth-shibboleth/issues
 
 ## Getting Started
 
-### Installation
-
-    % gem install omniauth-shibboleth
-
-### Setup Gemfile
+### Setup Gemfile and Install
 
     % cd rails-app
     % vi Gemfile
     gem 'omniauth-shibboleth'
+    % bundle install
 
 ### Setup Shibboleth Strategy
 
@@ -68,6 +68,25 @@ These can be changed by :uid_field, :name_field option. You can also add any "in
     end
 
 In the previous example, Shibboleth strategy does not pass any :info fields and use 'uid' attribute as uid fields.
+
+### More flexible attribute configuration
+
+If you need more flexible attribute definition, you can use lambda (Proc) to define your attributes. In the following example, 'uid' attribute is chosen from 'eppn' or 'mail', 'info'/'name' attribute is defined as a concatenation of 'cn' and 'sn' and 'info'/'affiliation' attribute is defined as 'affiliation'@my.localdomain. 'request_param' parameter is a method defined in OmniAuth::Shibboleth::Strategy. You can specify attribute names by downcase strings in either request_type, :env, :header and :params.
+
+    % vi config/initializer/omniauth.rb
+    Rails.application.config.middleware.use OmniAuth::Builder do
+      provider :shibboleth, {
+        :uid_field                 => lambda {|request_param| request_param.call('eppn') || request_param.call('mail')},
+        :name_field                => lambda {|request_param| "#{request_param.call('cn')} #{request_param.call('sn')}"},
+        :info_fields => {
+          :affiliation => lambda {|request_param| "#{request_param.call('affiliation')}@my.localdomain"},
+          :email    => "mail",
+          :location => "contactAddress",
+          :image    => "photo_url",
+          :phone    => "contactPhone"
+        }
+      }
+    end
 
 ### !!!NOTICE!!! devise integration issue
 

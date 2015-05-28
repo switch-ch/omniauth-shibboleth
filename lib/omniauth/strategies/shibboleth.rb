@@ -13,7 +13,7 @@ module OmniAuth
       option :request_type, :env
 
       def request_phase
-        [
+        [ 
           302,
           {
             'Location' => script_name + callback_path + query_string,
@@ -58,16 +58,25 @@ module OmniAuth
         super
       end
 
+      def option_handler(option_field)
+        if option_field.class == String ||
+          option_field.class == Symbol
+          request_param(option_field.to_s)
+        elsif option_field.class == Proc
+          option_field.call(self.method(:request_param))
+        end
+      end
+      
       uid do
-        request_param(options.uid_field.to_s)
+        option_handler(options.uid_field)
       end
 
       info do
         res = {
-          :name  => request_param(options.name_field.to_s)
+          :name => option_handler(options.name_field)
         }
-        options.info_fields.each_pair do |k,v|
-          res[k] = request_param(v.to_s)
+        options.info_fields.each_pair do |key, field|
+          res[key] = option_handler(field)
         end
         res
       end
